@@ -20,7 +20,15 @@ type devConfig = {
 
 type HandleFunction = (bot: Bot) => void;
 
+interface BaseEmbedsOptions {
+    type: EmbedTypes,
+    text: string,
+}
+
+type EmbedTypes = 'success' | 'error';
+
 export {
     BotConfig,
     HandleFunction,
+    BaseEmbedsOptions,
 };

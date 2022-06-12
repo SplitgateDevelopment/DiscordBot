@@ -1,5 +1,5 @@
-import { Client, ClientOptions, Collection } from 'discord.js';
-import { BotConfig, HandleFunction } from './types/Bot';
+import { Client, ClientOptions, Collection, EmbedBuilder } from 'discord.js';
+import { BotConfig, HandleFunction, BaseEmbedsOptions } from './types/Bot';
 import { Logger } from '@schiacciata/logger';
 import MongoClient from './util/MongoClient';
 import { v2 } from 'splitgate.js';
@@ -9,11 +9,13 @@ import SlashCommand from './util/structures/SlashCommand';
 import { readdirSync } from 'fs';
 import { REST } from '@discordjs/rest';
 import { ApplicationCommandType, Routes } from 'discord-api-types/v10';
+import { colors, emojis } from './util/EmbedData';
 
 class Bot extends Client {
     config: BotConfig;
     startDate: Date;
     isDev: boolean;
+    restApi: REST;
     logger: Logger;
     mongo: MongoClient;
     splitgate: v2;
@@ -25,6 +27,7 @@ class Bot extends Client {
         this.config = config;
         this.startDate = new Date();
         this.isDev = process.env.NODE_ENV === 'development';
+        this.restApi = new REST({ version: '10' }).setToken(this.config.bot?.token || '');
 
         this.logger = new Logger(config.logger);
         this.mongo = new MongoClient(config.db, this);
@@ -46,7 +49,6 @@ class Bot extends Client {
     }
 
     public async registerSlash() {
-        const rest = new REST({ version: '10' }).setToken(this.config.bot?.token || '');
         try {
             const commands = Array.from(this.slashCommands.values())
             .map(cmd => ({
@@ -56,20 +58,28 @@ class Bot extends Client {
                 type: cmd.type || ApplicationCommandType.ChatInput,
             }));
             if (this.isDev) {
-                await rest.put(Routes.applicationGuildCommands(this.config.bot.id || '', this.config.dev.guild || ''), {
+                await this.restApi.put(Routes.applicationGuildCommands(this.config.bot.id || '', this.config.dev.guild || ''), {
                     body: commands
                 });
                 this.logger.debug(`Updated ${commands.length} dev guild slash commands 🔐`);
             } else {
-                await rest.put(Routes.applicationCommands(this.config.bot.id || ''), {
+                await this.restApi.put(Routes.applicationCommands(this.config.bot.id || ''), {
                     body: commands
                 });
-                this.logger.success(`Successfully registered ${commands.length} slash commands!`);
+                this.logger.success(`Successfully registered ${commands.length} slash commands 🌐`);
             }
         } catch (error) {
             this.logger.error(`Failed to register ${Object.keys(this.slashCommands).length} slash commands.`);
             this.logger.error(error);        
         }
+    }
+
+    public embed({type, text}: BaseEmbedsOptions): EmbedBuilder {
+        const color = colors[type];
+        return new EmbedBuilder({
+            title: `${emojis[type]} | ${type[0].toUpperCase()+type.slice(1)}!`,
+            description: `> ${text}`
+        }).setColor(color);
     }
 
     public async start(): Promise<void> {
