@@ -8,12 +8,22 @@ export default new Event({
         if (!interaction.isChatInputCommand()) return;
 
         const slashCommand = client.slashCommands.get(interaction.commandName);
-        if (!slashCommand) return interaction.reply({ content: 'Oops! Command does not exist! ❌', ephemeral: true });
+        if (!slashCommand) return interaction.reply({ embeds: [
+            client.embed({
+                type: 'error',
+                text: 'Oops! Command does not exist!'
+            })
+        ], ephemeral: true });
 
         try {
             await slashCommand.run(client, interaction);
         } catch (error) {
-            interaction.reply({ content: 'Oops! Something went wrong! ❌', ephemeral: true });    
+            interaction.reply({ embeds: [
+                client.embed({
+                    type: 'error',
+                    text: `Oops! Something went wrong!\n> ${error}`
+                })
+            ], ephemeral: true });    
         }
     }
 });
