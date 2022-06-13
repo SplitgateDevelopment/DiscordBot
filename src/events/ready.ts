@@ -15,5 +15,16 @@ export default new Event({
                 url: 'https://github.com/SplitgateDiscord/'
             }]
         });
+
+        const token = client.config.splitgate?.token;
+        if (token) {
+            try {
+                client.splitgate.login(token)
+                .then(() => client.emit('splitgateLogin'))
+                .catch(() => client.logger.error('Error logging into splitgate servers'));
+            } catch (error) {
+                client.logger.error('Error logging into splitgate servers');
+            }
+        }
     }
 });

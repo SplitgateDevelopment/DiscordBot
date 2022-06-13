@@ -11,11 +11,17 @@ type BotConfig = {
     prefix: string;
     dev: devConfig;
     db: ClientOptions;
+    splitgate: SplitgateOptions
 };
 
 type devConfig = {
     ids: string[];
     guild: string;
+};
+
+type SplitgateOptions = {
+    redeemDaily?: boolean;
+    token?: string;
 };
 
 type HandleFunction = (bot: Bot) => void;
