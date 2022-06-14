@@ -25,13 +25,7 @@ export default new SlashCommand({
         const input = interaction.options.get('userid');
         const userId = input?.value?.toString() || '';
 
-        const data = await client.splitgate.getStats([userId])
-        .catch(() => interaction.reply({
-            embeds: [client.embed({
-                type: 'error',
-                text: 'An error happened during lookup'
-            })]
-        }));
+        const data = await client.splitgate.getStats([userId]);
         
         const stats = data[userId]?.totalStats?.commonStats?.stats;
         const embed = new EmbedBuilder()

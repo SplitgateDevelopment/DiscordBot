@@ -18,7 +18,7 @@ export default new Event({
         try {
             await slashCommand.run(client, interaction);
         } catch (error) {
-            interaction.reply({ embeds: [
+            if (!interaction.replied) interaction.reply({ embeds: [
                 client.embed({
                     type: 'error',
                     text: `Oops! Something went wrong!\n> ${error}`
