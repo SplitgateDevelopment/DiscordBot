@@ -20,7 +20,7 @@ export default new Event({
         if (token) {
             try {
                 client.splitgate.login(token)
-                .then(() => client.emit('splitgateLogin'))
+                .then((d) => client.emit('splitgateLogin', d))
                 .catch(() => client.logger.error('Error logging into splitgate servers'));
             } catch (error) {
                 client.logger.error('Error logging into splitgate servers');
