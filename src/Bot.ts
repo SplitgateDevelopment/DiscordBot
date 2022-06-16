@@ -10,6 +10,7 @@ import { readdirSync } from 'fs';
 import { REST } from '@discordjs/rest';
 import { ApplicationCommandType, Routes } from 'discord-api-types/v10';
 import { colors, emojis } from './util/EmbedData';
+import Utils from './util/Utils';
 
 class Bot extends Client {
     config: BotConfig;
@@ -19,6 +20,7 @@ class Bot extends Client {
     logger: Logger;
     mongo: MongoClient;
     splitgate: v2;
+    utils: Utils;
     commands: Collection<string, Command>;
     events: Collection<string, Event>;
     slashCommands: Collection<string, SlashCommand>;
@@ -32,6 +34,7 @@ class Bot extends Client {
         this.logger = new Logger(config.logger);
         this.mongo = new MongoClient(config.db, this);
         this.splitgate = new v2();
+        this.utils = new Utils(this);
 
         this.commands = new Collection();
         this.events = new Collection();
