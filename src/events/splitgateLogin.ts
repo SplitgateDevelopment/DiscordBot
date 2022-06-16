@@ -1,9 +1,10 @@
+import { User } from 'splitgate.js/dist/src/typings/v2';
 import Bot from '../Bot';
 import Event from '../util/structures/Event';
 
 export default new Event({
     name: 'splitgateLogin',
-    run: async (client: Bot, loginData: any) => {
+    run: async (client: Bot, loginData: User) => {
         client.logger.success(`Logged in on splitgate as ${loginData?.name || 'No name'}`);
 
         if (client.config.splitgate?.redeemDaily) {
