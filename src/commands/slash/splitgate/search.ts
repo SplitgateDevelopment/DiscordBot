@@ -3,7 +3,7 @@ import SlashCommand from '../../../util/structures/SlashCommand';
 
 export default new SlashCommand({
     name: 'search',
-    description: 'Retrive user id via users\'steamId',
+    description: 'Retrieve user id via user\'s steamId',
     options: [
         {
             name: 'steamid',
