@@ -15,6 +15,13 @@ export default new Event({
             })
         ], ephemeral: true });
 
+        if (slashCommand.category === 'splitgate' && !client.splitgate.authorized) return interaction.reply({ embeds: [
+            client.embed({
+                type: 'error',
+                text: 'Oops! The bot owner has not logged in on Splitgate yet!'
+            })
+        ], ephemeral: true });
+
         try {
             await slashCommand.run(client, interaction);
         } catch (error) {

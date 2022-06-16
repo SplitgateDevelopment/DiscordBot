@@ -7,12 +7,14 @@ class SlashCommand implements ISlashCommand {
     description: string;
     options?: ApplicationCommandOptionData[] = [];
     type?: ApplicationCommandType = ApplicationCommandType.ChatInput;
+    category?: string;
     run: (client: Bot, interaction: CommandInteraction) => void;
     constructor(options: SlashCommandOptions) {
         this.name = options.name;
         this.description = options.description;
         this.options = options.options || [];
         this.type = options.type || ApplicationCommandType.ChatInput;
+        this.category = options.category;
         this.run = options.run;
     }
 }

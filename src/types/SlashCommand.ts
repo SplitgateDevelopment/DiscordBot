@@ -6,6 +6,7 @@ type SlashCommandOptions = {
     description: string;
     options?: ApplicationCommandOptionData[];
     type?: ApplicationCommandType;
+    category?: string;
     run: (client: Bot, interaction: CommandInteraction) => void;
 };
 
@@ -14,6 +15,7 @@ interface ISlashCommand {
     description: string;
     options?: ApplicationCommandOptionData[];
     type?: ApplicationCommandType;
+    category?: string;
     run: (client: Bot, interaction: CommandInteraction) => void;
 }
 

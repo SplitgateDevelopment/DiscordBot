@@ -11,6 +11,8 @@ async function handle(client: Bot): Promise<void> {
         .filter(file => file.endsWith('.js'));
         for (const file of files) {
             const { default: command } = await import(path.join(slashPath, category, file)) as { default: SlashCommand };
+            command.category = category;
+            
             client.slashCommands.set(command.name, command);
             client.logger.info(`Loaded slash command: ${command.name} (/)`);
         }

@@ -14,14 +14,6 @@ export default new SlashCommand({
     ],
     run: async (client, interaction) => {
 
-        if (!client.splitgate.authorized) return interaction.reply({
-            embeds: [client.embed({
-                type: 'error',
-                text: 'The bot owner has not logged in on Splitgate yet'
-            })],
-            ephemeral: true
-        });
-
         const input = interaction.options.get('userid');
         const userId = input?.value?.toString() || '';
 
