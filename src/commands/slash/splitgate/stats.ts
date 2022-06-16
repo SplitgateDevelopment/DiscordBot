@@ -3,7 +3,7 @@ import SlashCommand from '../../../util/structures/SlashCommand';
 
 export default new SlashCommand({
     name: 'stats',
-    description: 'Retrieve user's statistics',
+    description: 'Retrieve user\'s statistics',
     options: [
         {
             name: 'userid',
