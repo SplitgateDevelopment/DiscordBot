@@ -13,12 +13,15 @@ const config: BotConfig = Object.freeze({
     },
     prefix: 's!',
     dev: {
-        ids: [''],
-        guild: '777148073032810526'
+        ids: [process.env.OWNER_ID || ''],
+        guild: process.env.DEV_GUILD_ID || ''
     },
     db: {
         uri: process.env.DB_URI,
     },
+    splitgate: {
+        redeemDaily: true,
+    }
 });
 
 export default config;
