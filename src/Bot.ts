@@ -1,5 +1,5 @@
 import { Client, ClientOptions, Collection, EmbedBuilder } from 'discord.js';
-import { BotConfig, HandleFunction, BaseEmbedsOptions } from './types/Bot';
+import { BotConfig, HandleFunction, BaseEmbedsOptions, slashCmdsMapTypes } from './types/Bot';
 import { Logger } from '@schiacciata/logger';
 import MongoClient from './util/MongoClient';
 import { v2 } from 'splitgate.js';
@@ -53,28 +53,44 @@ class Bot extends Client {
 
     public async registerSlash() {
         try {
-            const commands = Array.from(this.slashCommands.values())
-            .map(cmd => ({
-                name: cmd.name || '',
-                description: cmd.description || '',
-                options: cmd.options,
-                type: cmd.type || ApplicationCommandType.ChatInput,
-            }));
+            
+            const publicCommands = this._mapSlashCommands('public');
+            const privateCommands = this._mapSlashCommands('private');
+            
             if (this.isDev) {
+                const commands = [...publicCommands, ...privateCommands];
                 await this.restApi.put(Routes.applicationGuildCommands(this.config.bot.id || '', this.config.dev.guild || ''), {
                     body: commands
                 });
                 this.logger.debug(`Updated ${commands.length} dev guild slash commands 🔐`);
             } else {
                 await this.restApi.put(Routes.applicationCommands(this.config.bot.id || ''), {
-                    body: commands
+                    body: publicCommands
                 });
-                this.logger.success(`Successfully registered ${commands.length} slash commands 🌐`);
+                await this.restApi.put(Routes.applicationGuildCommands(this.config.bot.id || '', this.config.dev.guild || ''), {
+                    body: privateCommands
+                });
+
+                this.logger.success(`Successfully registered ${publicCommands.length} slash commands 🌐`);
+                this.logger.success(`Successfully registered ${privateCommands.length} private slash commands 🔐`);
             }
         } catch (error) {
             this.logger.error(`Failed to register ${Object.keys(this.slashCommands).length} slash commands.`);
             this.logger.error(error);        
         }
+    }
+
+    private _mapSlashCommands(filter: slashCmdsMapTypes = 'public', commands = this.slashCommands) {
+        const arr = Array.from(commands.values())
+        .filter(cmd => filter === 'private' ? cmd.private : cmd.private === false);
+        
+        const map = arr.map(cmd => ({
+            name: cmd.name || '',
+            description: cmd.description || '',
+            options: cmd.options,
+            type: cmd.type || ApplicationCommandType.ChatInput,
+        }));
+        return map;
     }
 
     public embed({type, text}: BaseEmbedsOptions): EmbedBuilder {

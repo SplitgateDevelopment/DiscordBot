@@ -33,8 +33,11 @@ interface BaseEmbedsOptions {
 
 type EmbedTypes = 'success' | 'error';
 
+type slashCmdsMapTypes = 'private' | 'public';
+
 export {
     BotConfig,
     HandleFunction,
     BaseEmbedsOptions,
+    slashCmdsMapTypes,
 };

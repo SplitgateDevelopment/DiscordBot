@@ -8,6 +8,7 @@ class SlashCommand implements ISlashCommand {
     options?: ApplicationCommandOptionData[] = [];
     type?: ApplicationCommandType = ApplicationCommandType.ChatInput;
     category?: string;
+    private?: boolean = false;
     run: (client: Bot, interaction: CommandInteraction) => void;
     constructor(options: SlashCommandOptions) {
         this.name = options.name;
@@ -15,6 +16,7 @@ class SlashCommand implements ISlashCommand {
         this.options = options.options || [];
         this.type = options.type || ApplicationCommandType.ChatInput;
         this.category = options.category;
+        this.private = options.private || false;
         this.run = options.run;
     }
 }
