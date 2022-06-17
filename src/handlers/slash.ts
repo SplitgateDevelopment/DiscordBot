@@ -14,7 +14,7 @@ async function handle(client: Bot): Promise<void> {
             command.category = category;
             
             client.slashCommands.set(command.name, command);
-            client.logger.info(`Loaded slash command: ${command.name} (/)`);
+            client.logger.info(`Loaded slash command: ${command.name} ${command.private ? '🔒': '🌐'} (/)`);
         }
     }
     await client.registerSlash();
