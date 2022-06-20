@@ -26,47 +26,47 @@ export default new SlashCommand({
         .setColor('#add8e6')
         .addFields([{
                 name: '**❯ Kills:**',
-                value: codeBlock(stats.kills),
+                value: codeBlock(stats?.kills),
                 inline: true,
             },
             {
                 name: '**❯ Deaths:**',
-                value: codeBlock(stats.deaths),
+                value: codeBlock(stats?.deaths),
                 inline: true,
             },
             {
                 name: '**❯ KD:**',
-                value: codeBlock(stats.kdRatio.toString().slice(0, 5)),
+                value: codeBlock(stats?.kdRatio?.toString().slice(0, 5)),
                 inline: true,
             },
             {
                 name: '**❯ Accuracy:**',
-                value: codeBlock(`${(stats.accuracy*100).toString().slice(0, 5)}%`),
+                value: codeBlock(`${((stats?.accuracy || 0)*100).toString().slice(0, 5)}%`),
                 inline: true,
             },
             {
                 name: '**❯ Headshot Kills:**',
-                value: codeBlock(stats.headshotKills),
+                value: codeBlock(stats?.headshotKills),
                 inline: true,
             },
             {
                 name: '**❯ Melee Kills:**',
-                value: codeBlock(stats.meleeKills),
+                value: codeBlock(stats?.meleeKills),
                 inline: true,
             },
             {
                 name: '**❯ Assists:**',
-                value: codeBlock(stats.assists),
+                value: codeBlock(stats?.assists),
                 inline: true,
             },
             {
                 name: '**❯ Damage Dealt:**',
-                value: codeBlock(stats.damageDealt),
+                value: codeBlock(stats?.damageDealt),
                 inline: true,
             },
             {
                 name: '**❯ Teabags:**',
-                value: codeBlock(stats.teabags),
+                value: codeBlock(stats?.teabags),
                 inline: true,
             },
         ])
