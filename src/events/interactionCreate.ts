@@ -22,6 +22,13 @@ export default new Event({
             })
         ], ephemeral: true });
 
+        if (slashCommand.category === 'owner' && !client.config.dev.ids.includes(interaction.user.id)) return interaction.reply({ embeds: [
+            client.embed({
+                type: 'error',
+                text: 'Oops! You are not the bot owner!'
+            })
+        ], ephemeral: true });
+
         try {
             await slashCommand.run(client, interaction);
         } catch (error) {
