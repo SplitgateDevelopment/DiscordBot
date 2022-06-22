@@ -17,6 +17,10 @@ class Utils {
     uptime(): number {
         return Date.now() / 1000 - (this.client?.uptime || 0) / 1000;
     }
+
+    objectSize(obj: object): number {
+        return Object.keys(obj).length;
+    }
 }
 
 export default Utils;
