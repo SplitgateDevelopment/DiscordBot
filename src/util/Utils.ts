@@ -10,10 +10,9 @@ class Utils {
         return `https://discord.com/api/oauth2/authorize?client_id=${client_id}&permissions=${permissions}&scope=${scope.join('%20')}`;
     }
 
-    codeBlock(text: string | number): string {
+    codeBlock(text: string | number = 'Undefined'): string {
         return `\`${text}\``
     }
-
 }
 
 export default Utils;
