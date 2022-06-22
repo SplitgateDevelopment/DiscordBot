@@ -13,6 +13,10 @@ class Utils {
     codeBlock(text: string | number = 'Undefined'): string {
         return `\`${text}\``
     }
+
+    uptime(): number {
+        return Date.now() / 1000 - (this.client?.uptime || 0) / 1000;
+    }
 }
 
 export default Utils;
