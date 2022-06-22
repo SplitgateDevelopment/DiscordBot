@@ -75,7 +75,7 @@ class Bot extends Client {
                 this.logger.success(`Successfully registered ${privateCommands.length} private slash commands 🔐`);
             }
         } catch (error) {
-            this.logger.error(`Failed to register ${Object.keys(this.slashCommands).length} slash commands.`);
+            this.logger.error(`Failed to register ${this.utils.objectSize(this.slashCommands)} slash commands.`);
             this.logger.error(error);        
         }
     }
