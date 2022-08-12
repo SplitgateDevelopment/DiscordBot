@@ -35,7 +35,7 @@ export default new Event({
             if (!interaction.replied) interaction.reply({ embeds: [
                 client.embed({
                     type: 'error',
-                    text: `Oops! Something went wrong!\n> ${error}`
+                    text: `Oops! Something went wrong!\n\`\`\`js\n${error}\`\`\``
                 })
             ], ephemeral: true });    
         }
