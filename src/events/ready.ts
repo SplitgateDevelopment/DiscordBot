@@ -12,7 +12,7 @@ export default new Event({
             activities: [{
                 name: 'SPLITGATE',
                 type: ActivityType.Competing,
-                url: 'https://github.com/SplitgateDiscord/'
+                url: 'https://github.com/SplitgateDevelopment/'
             }]
         });
 
