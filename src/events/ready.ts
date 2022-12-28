@@ -16,6 +16,12 @@ export default new Event({
             }]
         });
 
+        const serverUrl = client.config.splitgate?.serverUrl;
+        if (serverUrl) {
+            client.logger.info(`Custom splitgate server URL: ${serverUrl}`);
+            client.splitgate.baseUrl = serverUrl;
+        }
+
         const token = client.config.splitgate?.token;
         if (token) {
             try {
