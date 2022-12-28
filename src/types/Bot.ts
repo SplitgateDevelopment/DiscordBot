@@ -11,7 +11,7 @@ type BotConfig = {
     prefix: string;
     dev: devConfig;
     db: ClientOptions;
-    splitgate: SplitgateOptions
+    splitgate?: SplitgateOptions
 };
 
 type devConfig = {
@@ -22,6 +22,7 @@ type devConfig = {
 type SplitgateOptions = {
     redeemDaily?: boolean;
     token?: string;
+    serverUrl?: string;
 };
 
 type HandleFunction = (bot: Bot) => void;
