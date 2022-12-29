@@ -26,7 +26,7 @@ export default new SlashCommand({
         .filter(k => k !== 'None')
         .map(k => {
             const value = chosenCustomizations[k].map((item: string) => {
-                const [_, name, style] = item.split('_');
+                const [, name, style] = item.split('_');
                 return style ? `${name} (${style})` : name;
               }).join(', ');
 
