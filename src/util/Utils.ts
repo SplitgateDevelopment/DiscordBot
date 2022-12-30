@@ -26,6 +26,11 @@ class Utils {
         const regex = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g);
         return regex !== null;
     }
+
+    getFormattedTimestamp(date: string | number, option?: string): string {
+        const timestamp = (typeof date === 'string' ? new Date(date).getTime() : date)/1000;
+        return `<t:${timestamp.toFixed()}${option ? `:${option}` : ''}>`;
+    }
 }
 
 export default Utils;
