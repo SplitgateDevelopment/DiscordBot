@@ -1,4 +1,4 @@
-import { EmbedBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 export default new SlashCommand({
@@ -8,13 +8,22 @@ export default new SlashCommand({
         const link = client.utils.inviteUrl();
         const embed = new EmbedBuilder()
         .setTitle('Invite me!')
-        .setDescription(`**[Click Here](${link})**`)
         .setColor('Aqua')
         .setThumbnail(client.user?.avatarURL() || '');
+
+        const buttonRow = new ActionRowBuilder<ButtonBuilder>()
+			.addComponents(
+				new ButtonBuilder()
+                    .setEmoji('🔗')
+                    .setURL(link)
+					.setLabel('Click Here!')
+					.setStyle(ButtonStyle.Link),
+			);
 
         interaction.reply({
             embeds: [embed],
             ephemeral: true,
+            components: [buttonRow]
         })
     },
 });
