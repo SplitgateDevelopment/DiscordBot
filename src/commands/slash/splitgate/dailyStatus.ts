@@ -18,7 +18,7 @@ export default new SlashCommand({
         const userId = input?.value?.toString() || '';
         const data = await client.splitgate.getDailyCheckInStatus(userId);
 
-        const { codeBlock } = client.utils;
+        const { codeBlock, getFormattedTimestamp } = client.utils;
         const embed = new EmbedBuilder()
         .setTitle('Daily check-in status 📬')
         .setColor('DarkGold')
@@ -45,7 +45,7 @@ export default new SlashCommand({
             },
             {
                 name: '**❯ Week ends at:**',
-                value: `<t:${(data.weekExpiresAtMs/1000).toFixed()}>`,
+                value: getFormattedTimestamp(data.weekExpiresAtMs),
                 inline: true,
             },
             {

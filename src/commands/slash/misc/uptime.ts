@@ -6,9 +6,10 @@ export default new SlashCommand({
     description: 'Retrieve the bot\'s uptime',
     run: async (client, interaction) => {
         
+        const { uptime, getFormattedTimestamp } = client.utils;
         const embed = new EmbedBuilder()
         .setTitle('Uptime 🔌')
-        .setDescription(`The bot is online since <t:${client.utils.uptime().toFixed()}:R>`)
+        .setDescription(`The bot is online since ${getFormattedTimestamp(uptime(), 'R')}>`)
         .setColor('Blue');
 
         interaction.reply({
