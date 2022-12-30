@@ -45,7 +45,7 @@ export default new SlashCommand({
             },
             {
                 name: '**❯ Week ends at:**',
-                value: `<t:${data.weekExpiresAtMs/1000}>`,
+                value: `<t:${(data.weekExpiresAtMs/1000).toFixed()}>`,
                 inline: true,
             },
             {
