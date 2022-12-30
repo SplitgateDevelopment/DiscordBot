@@ -5,7 +5,7 @@ import Event from '../util/structures/Event';
 export default new Event({
     name: 'splitgateLogin',
     run: async (client: Bot, loginData: User) => {
-        client.logger.success(`Logged in on splitgate as ${loginData?.name || 'No name'}`);
+        client.logger.success(`Logged in on splitgate as ${loginData?.name || 'No name'} (${loginData.id || 'No id'})`);
 
         if (client.config.splitgate?.redeemDaily) {
             redeem(client);
