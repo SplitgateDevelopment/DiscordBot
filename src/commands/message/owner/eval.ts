@@ -1,6 +1,6 @@
 import Command from '../../../util/structures/Command';
 import { inspect } from 'util';
-import { EmbedBuilder } from '@discordjs/builders';
+import { EmbedBuilder } from 'discord.js';
 
 export default new Command({
     name: 'eval',
