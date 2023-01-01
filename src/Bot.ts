@@ -11,6 +11,7 @@ import { REST } from '@discordjs/rest';
 import { ApplicationCommandType, Routes } from 'discord-api-types/v10';
 import { colors, emojis } from './util/EmbedData';
 import Utils from './util/Utils';
+import Button from './util/structures/Interaction';
 
 class Bot extends Client {
     config: BotConfig;
@@ -24,6 +25,7 @@ class Bot extends Client {
     commands: Collection<string, Command>;
     events: Collection<string, Event>;
     slashCommands: Collection<string, SlashCommand>;
+    interactions: Collection<string, Button>;
     constructor(config: BotConfig, options: ClientOptions) {
         super(options);
         this.config = config;
@@ -39,6 +41,7 @@ class Bot extends Client {
         this.commands = new Collection();
         this.events = new Collection();
         this.slashCommands = new Collection();
+        this.interactions = new Collection();
     }
 
     private async _loadHandlers(): Promise<void> {
