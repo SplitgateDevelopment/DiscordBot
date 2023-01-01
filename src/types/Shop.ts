@@ -19,7 +19,44 @@ type viewButtonData = {
     [key in viewSections] : viewButton;
 }
 
+type viewSection = {
+    title: viewSections;
+    name: string;
+    itemIds: string[];
+    type: string;
+    endDate: string;
+    startDate: string;
+    items: item[];
+}
+
+type item = {
+    title: string;
+    name: string;
+    itemId: string;
+    purchasable: boolean;
+    thumbnailUrl?: string;
+    regionData: price[];
+    rarity: string;
+    customizationType?: string;
+    itemType: string;
+    maxCountPerUser?: number;
+    categoryPath?: string;
+    updatedAt: string;
+    createdAt: string;
+}
+
+type price = {
+    price: number,
+    discountPercentage: number;
+    discountAmount: number;
+    discountedPrice: number;
+    currencyCode: string;
+}
+
 export {
     view,
-    viewButtonData
+    viewButtonData,
+    viewSections,
+    viewSection,
+    item,
 }
