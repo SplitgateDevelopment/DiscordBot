@@ -1,13 +1,17 @@
-import { EventFunction, EventOptions } from '../../types/Event';
+import Bot from '../../Bot';
+import { EventOptions, IEvent } from '../../types/Event';
 
-class Event {
+class Event implements IEvent {
     name: string;
     once: boolean;
-    run: EventFunction;
     constructor(options: EventOptions) {
         this.name = options.name;
         this.once = options.once || false;
-        this.run = options.run;
+        if (options.run) this.run = options.run;
+    }
+
+    run (_client: Bot, ..._args: any[]):void {
+        throw new Error('Not implemented');
     }
 }
 
