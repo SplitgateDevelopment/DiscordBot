@@ -22,5 +22,5 @@ export type CommandOptions = {
     ownerOnly?: boolean;
     userPermissions?: PermissionResolvable[];
     botPermissions?: PermissionResolvable[];
-    run: Run
+    run?: Run
 }
