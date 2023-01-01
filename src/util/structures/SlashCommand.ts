@@ -5,11 +5,10 @@ import Bot from '../../Bot';
 class SlashCommand implements ISlashCommand {
     name: string;
     description: string;
-    options?: ApplicationCommandOptionData[] = [];
-    type?: ApplicationCommandType = ApplicationCommandType.ChatInput;
+    options: ApplicationCommandOptionData[];
+    type: ApplicationCommandType = ApplicationCommandType.ChatInput;
     category?: string;
-    private?: boolean = false;
-    run: (client: Bot, interaction: CommandInteraction) => void;
+    private: boolean;
     constructor(options: SlashCommandOptions) {
         this.name = options.name;
         this.description = options.description;
@@ -17,7 +16,11 @@ class SlashCommand implements ISlashCommand {
         this.type = options.type || ApplicationCommandType.ChatInput;
         this.category = options.category;
         this.private = options.private || false;
-        this.run = options.run;
+        if (options.run) this.run = options.run;
+    }
+
+    run (_client: Bot, _interaction: CommandInteraction): void {
+        throw new Error('Not implemented');
     }
 }
 
