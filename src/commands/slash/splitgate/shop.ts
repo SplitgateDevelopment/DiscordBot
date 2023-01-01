@@ -1,12 +1,17 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
 import { view, viewButtonData } from '../../../types/Shop';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'shop',
-    description: 'Retrieve the game daily item shop',
-    run: async (client, interaction) => {
-        const buttonData: viewButtonData = {
+class ShopCommand extends SlashCommand {
+    buttonData: viewButtonData;
+    constructor() {
+        super({
+            name: 'shop',
+            description: 'Retrieve the game daily item shop',
+        });
+
+        this.buttonData = {
             'Esports': {
                emoji: '🔫',
                style: ButtonStyle.Danger 
@@ -14,30 +19,33 @@ export default new SlashCommand({
             'Daily Items': {
                 emoji: '🕑',
                 style: ButtonStyle.Secondary 
-             },
+            },
             'Value Bundle': {
                 emoji: '💸',
                 style: ButtonStyle.Success 
-             },
+            },
             'Featured Items': {
                 emoji: '✨',
                 style: ButtonStyle.Primary 
-             },
+            },
         }
+    }
+
+    async run(client: Bot, interaction: CommandInteraction) {
         const views: view[] = await client.splitgate.getViews();
 
         const embed = new EmbedBuilder()
-        .setTitle('Item shop sections 🏪')
-        .setColor('Red')
-        .setDescription(views.map(v => `**${v.title}** - Updated on <t:${(new Date(v.updatedAt).getTime()/1000).toFixed()}>`).join('\n'))
+        .setTitle('Item shop sections 🛒')
+        .setColor('Orange')
+        .setDescription(views.map(v => `**• ${v.title}** - Updated on ${client.utils.getFormattedTimestamp(v.updatedAt)}`).join('\n'))
         .setTimestamp(Date.now());
 
         const buttonRow = new ActionRowBuilder<ButtonBuilder>()
 			.addComponents(views.map(v => {
-                const { emoji, style } = buttonData[v.title];
+                const { emoji, style } = this.buttonData[v.title];
                 return new ButtonBuilder()
                 .setEmoji(emoji)
-                .setCustomId(`view_${v.viewId}`)
+                .setCustomId(`ShopButton_${v.viewId}_${emoji}`)
                 .setLabel(v.title)
                 .setStyle(style)
             }));
@@ -46,5 +54,7 @@ export default new SlashCommand({
             embeds: [embed],
             components: [buttonRow]
         });
-    },
-});
+    }
+}
+
+export default new ShopCommand;
