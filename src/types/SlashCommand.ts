@@ -8,7 +8,7 @@ type SlashCommandOptions = {
     type?: ApplicationCommandType;
     category?: string;
     private?: boolean;
-    run: (client: Bot, interaction: CommandInteraction) => void;
+    run?: (client: Bot, interaction: CommandInteraction) => void;
 };
 
 interface ISlashCommand {
