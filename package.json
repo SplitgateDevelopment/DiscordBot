@@ -20,7 +20,7 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.1",
     "mongoose": "^6.3.5",
-    "splitgate.js": "^3.2.0"
+    "splitgate.js": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.39",
