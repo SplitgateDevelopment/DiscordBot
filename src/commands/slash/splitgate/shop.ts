@@ -1,38 +1,36 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from 'discord.js';
+import { ActionRowBuilder, StringSelectMenuBuilder, CommandInteraction, EmbedBuilder } from 'discord.js';
 import Bot from '../../../Bot';
-import { view, viewButtonData } from '../../../types/Shop';
+import { view, viewButtonEmojis } from '../../../types/Shop';
 import SlashCommand from '../../../util/structures/SlashCommand';
+import ShopSelectMenu from '../../../interactions/selectmenus/shop';
 
 class ShopCommand extends SlashCommand {
-    buttonData: viewButtonData;
+    private readonly buttonEmojis: viewButtonEmojis;
     constructor() {
         super({
             name: 'shop',
             description: 'Retrieve the game daily item shop',
+            options: [
+                {
+                    name: 'language',
+                    description: '2 char language code (en, es, it...)',
+                    type: 3,
+                    min_length: 2,
+                    max_length: 2,
+                }
+            ]
         });
 
-        this.buttonData = {
-            'Esports': {
-               emoji: '🔫',
-               style: ButtonStyle.Danger 
-            },
-            'Daily Items': {
-                emoji: '🕑',
-                style: ButtonStyle.Secondary 
-            },
-            'Value Bundle': {
-                emoji: '💸',
-                style: ButtonStyle.Success 
-            },
-            'Featured Items': {
-                emoji: '✨',
-                style: ButtonStyle.Primary 
-            },
+        this.buttonEmojis = {
+            'Esports': '🔫',
+            'Daily Items': '🕑',
+            'Value Bundle': '💸',
+            'Featured Items': '✨',
         }
     }
 
     async run(client: Bot, interaction: CommandInteraction) {
-        const views: view[] = await client.splitgate.getViews();
+        const views: view[] = await client.splitgate.getViews(interaction.options.get('language')?.value?.toString());
 
         const embed = new EmbedBuilder()
         .setTitle('Item shop sections 🛒')
@@ -40,19 +38,24 @@ class ShopCommand extends SlashCommand {
         .setDescription(views.map(v => `**• ${v.title}** - Updated on ${client.utils.getFormattedTimestamp(v.updatedAt)}`).join('\n'))
         .setTimestamp(Date.now());
 
-        const buttonRow = new ActionRowBuilder<ButtonBuilder>()
-			.addComponents(views.map(v => {
-                const { emoji, style } = this.buttonData[v.title];
-                return new ButtonBuilder()
-                .setEmoji(emoji)
-                .setCustomId(`ShopButton_${v.viewId}_${emoji}`)
-                .setLabel(v.title)
-                .setStyle(style)
-            }));
+        const selectMenu = new ActionRowBuilder<StringSelectMenuBuilder>()
+        .addComponents(
+            new StringSelectMenuBuilder()
+                .setCustomId(ShopSelectMenu.customId)
+                .setPlaceholder('❌ Nothing selected')
+                .addOptions(views.map(v => {
+                    return {
+                        label: v.title,
+                        emoji: this.buttonEmojis[v.name],
+                        value: v.viewId
+                    }
+                }),
+            ),
+        );
 
         interaction.reply({
             embeds: [embed],
-            components: [buttonRow]
+            components: [selectMenu]
         });
     }
 }
