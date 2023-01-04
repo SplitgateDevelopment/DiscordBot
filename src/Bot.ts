@@ -99,8 +99,7 @@ class Bot extends Client {
     public embed({type, text}: BaseEmbedsOptions): EmbedBuilder {
         const color = colors[type];
         return new EmbedBuilder({
-            title: `${emojis[type]} | ${type[0].toUpperCase()+type.slice(1)}!`,
-            description: `> ${text}`
+            description: `\`${emojis[type]}\` | ${text}!`
         }).setColor(color);
     }
 
