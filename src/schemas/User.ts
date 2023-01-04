@@ -2,11 +2,11 @@ import { model, Schema } from 'mongoose';
 import { IUser } from '../types/User';
 
 const UserSchema = new Schema<IUser>({
-    id: {
+    _id: {
         type: String || Number,
         required: true,
     },
-    authToken: {
+    splitgateId: {
         type: String,
         required: false,
     }
