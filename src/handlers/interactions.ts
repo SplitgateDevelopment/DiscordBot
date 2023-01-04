@@ -12,7 +12,7 @@ async function handle(client: Bot): Promise<void> {
         .forEach(async (file) => {
             const { default: interaction } = await import(path.join(interactionsPath, interactionType, file)) as { default: Interaction };
             client.interactions.set(interaction.customId, interaction);
-            client.logger.info(`Loaded interaction ${interaction.customId} 🔤`);
+            client.logger.info(`Loaded interaction ${interaction.customId} (${interactionType}) 🔤`);
         });
     });
 }
