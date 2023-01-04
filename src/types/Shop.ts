@@ -10,13 +10,8 @@ type view = {
   name: viewSections;
 };
 
-type viewButton = {
-    emoji: string;
-    style: ButtonStyle
-}
-
-type viewButtonData = {
-    [key in viewSections] : viewButton;
+type viewButtonEmojis = {
+    [key in viewSections] : string;
 }
 
 type viewSection = {
@@ -55,7 +50,7 @@ type price = {
 
 export {
     view,
-    viewButtonData,
+    viewButtonEmojis,
     viewSections,
     viewSection,
     item,
