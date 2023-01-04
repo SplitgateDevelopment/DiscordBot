@@ -1,7 +1,7 @@
 import Bot from '../../Bot';
 import { EventOptions, IEvent } from '../../types/Event';
 
-class Event implements IEvent {
+abstract class Event implements IEvent {
     name: string;
     once: boolean;
     constructor(options: EventOptions) {
