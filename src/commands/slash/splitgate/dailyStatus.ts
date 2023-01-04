@@ -1,22 +1,25 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'dailystatus',
-    description: 'Retrieve daily check-in status',
-    options: [
-        {
-            name: 'userid',
-            description: 'Splitgate user identifier',
-            type: 3,
-            required: true
-        }
-    ],
-    run: async (client, interaction) => {
-
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
-        const data = await client.splitgate.getDailyCheckInStatus(userId);
+class DailyStatusCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'dailystatus',
+            description: 'Retrieve daily check-in status',
+            options: [
+                {
+                    name: 'userid',
+                    description: 'Splitgate user identifier',
+                    type: 3,
+                }
+            ]
+        })
+    }
+    
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+        const data = await client.splitgate.getDailyCheckInStatus(user.splitgateId);
 
         const { codeBlock, getFormattedTimestamp } = client.utils;
         const embed = new EmbedBuilder()
@@ -59,5 +62,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         })
-    },
-});
+    }
+}
+
+export default new DailyStatusCommand;

@@ -1,5 +1,6 @@
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
 import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class BadgesCommand extends SlashCommand {
@@ -12,17 +13,13 @@ class BadgesCommand extends SlashCommand {
                     name: 'userid',
                     description: 'Splitgate user identifier',
                     type: 3,
-                    required: true
                 }
             ]
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction) {
-
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
-        const { badgeProgress } = (await client.splitgate.getBadges([userId]))[userId];
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+        const { badgeProgress } = (await client.splitgate.getBadges([user.splitgateId]))[user.splitgateId || ''];
         
         const { codeBlock } = client.utils;
         const fields = Object.keys(badgeProgress)

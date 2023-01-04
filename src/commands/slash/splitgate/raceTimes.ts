@@ -1,44 +1,47 @@
-import { APIEmbedField, EmbedBuilder } from 'discord.js';
+import { APIEmbedField, CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'racetimes',
-    description: 'Retrieve user\'s racetimes',
-    options: [
-        {
-            name: 'userid',
-            description: 'Splitgate user identifier',
-            type: 3,
-            required: true
-        },
-        {
-            name: 'platform',
-            description: 'User platform',
-            type: 3,
-            required: false,
-            choices: [
+class RaceTimesCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'racetimes',
+            description: 'Retrieve user\'s racetimes',
+            options: [
                 {
-                    name: 'Steam',
-                    value: 'STEAM'
+                    name: 'userid',
+                    description: 'Splitgate user identifier',
+                    type: 3,
                 },
                 {
-                    name: 'Xbox',
-                    value: 'XBOX'
-                },
-                {
-                    name: 'Playstation',
-                    value: 'PSN'
+                    name: 'platform',
+                    description: 'User platform',
+                    type: 3,
+                    required: false,
+                    choices: [
+                        {
+                            name: 'Steam',
+                            value: 'STEAM'
+                        },
+                        {
+                            name: 'Xbox',
+                            value: 'XBOX'
+                        },
+                        {
+                            name: 'Playstation',
+                            value: 'PSN'
+                        }
+                    ]
                 }
-            ]
-        }
-    ],
-    run: async (client, interaction) => {
+            ],        
+        })
+    }
 
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
         const platform = interaction.options.get('platform')?.value?.toString() || 'STEAM';
 
-        const data = await client.splitgate.getRaceTimes(userId, platform);
+        const data = await client.splitgate.getRaceTimes(user.splitgateId, platform);
 
         const { objectSize, codeBlock } = client.utils;
         const embed = new EmbedBuilder()
@@ -65,5 +68,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new RaceTimesCommand;

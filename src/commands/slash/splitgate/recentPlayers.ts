@@ -1,32 +1,27 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'recentplayers',
-    description: 'Retrieve user\'s recent players',
-    options: [
-        {
-            name: 'userid',
-            description: 'Splitgate user identifier',
-            type: 3,
-            required: true
-        }
-    ],
-    run: async (client, interaction) => {
+class RecentPlayersCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'recentplayers',
+            description: 'Retrieve user\'s recent players',
+            options: [
+                {
+                    name: 'userid',
+                    description: 'Splitgate user identifier',
+                    type: 3,
+                }
+            ],        
+        })
+    }
 
-        if (!client.splitgate.authorized) return interaction.reply({
-            embeds: [client.embed({
-                type: 'error',
-                text: 'The bot owner has not logged in on Splitgate yet'
-            })],
-            ephemeral: true
-        });
-
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
         
         const limit = 11;
-        const data = await client.splitgate.getRecentPlayers(userId, limit);
+        const data = await client.splitgate.getRecentPlayers(user.splitgateId, limit);
         
         // Use a for loop since the api does not check the specified limit
         const users = [];
@@ -49,5 +44,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new RecentPlayersCommand;

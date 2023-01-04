@@ -1,24 +1,26 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'stats',
-    description: 'Retrieve user\'s statistics',
-    options: [
-        {
-            name: 'userid',
-            description: 'The user identifier to search for',
-            type: 3,
-            required: true
-        }
-    ],
-    run: async (client, interaction) => {
+class StatsCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'stats',
+            description: 'Retrieve user\'s statistics',
+            options: [
+                {
+                    name: 'userid',
+                    description: 'The user identifier to search for',
+                    type: 3,
+                }
+            ]
+        })
+    }
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
 
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
-
-        const data = await client.splitgate.getStats([userId]);
-        const stats = data[userId]?.totalStats?.commonStats?.stats;
+        const data = await client.splitgate.getStats([user.splitgateId]);
+        const stats = data[user.splitgateId || '']?.totalStats?.commonStats?.stats;
         
         const { codeBlock } = client.utils;
         const embed = new EmbedBuilder()
@@ -75,5 +77,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new StatsCommand;

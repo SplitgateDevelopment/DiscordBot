@@ -1,22 +1,25 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'locker',
-    description: 'Retrieve user\'s locker',
-    options: [
-        {
-            name: 'userid',
-            description: 'Splitgate user identifier',
-            type: 3,
-            required: true
-        }
-    ],
-    run: async (client, interaction) => {
+class LockerCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'locker',
+            description: 'Retrieve user\'s locker',
+            options: [
+                {
+                    name: 'userid',
+                    description: 'Splitgate user identifier',
+                    type: 3,
+                }
+            ]
+        })
+    }
 
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
-        const { customizations, chosenCustomizations } = await client.splitgate.getCosmetics(userId);
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+        const { customizations, chosenCustomizations } = await client.splitgate.getCosmetics(user.splitgateId);
 
         const { codeBlock } = client.utils;
         const embed = new EmbedBuilder()
@@ -45,5 +48,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new LockerCommand;

@@ -1,22 +1,25 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
+import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'referralinfo',
-    description: 'Retrieve user\'s drops referral info',
-    options: [
-        {
-            name: 'userid',
-            description: 'Splitgate user identifier',
-            type: 3,
-            required: true
-        }
-    ],
-    run: async (client, interaction) => {
+class ReferralInfo extends SlashCommand {
+    constructor() {
+        super({
+            name: 'referralinfo',
+            description: 'Retrieve user\'s drops referral info',
+            options: [
+                {
+                    name: 'userid',
+                    description: 'Splitgate user identifier',
+                    type: 3,
+                }
+            ],        
+        })
+    }
 
-        const input = interaction.options.get('userid');
-        const userId = input?.value?.toString() || '';
-        const data = await client.splitgate.getReferralData(userId);
+    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+        const data = await client.splitgate.getReferralData(user.splitgateId);
 
         const { codeBlock } = client.utils;
         const embed = new EmbedBuilder()
@@ -52,5 +55,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new ReferralInfo;
