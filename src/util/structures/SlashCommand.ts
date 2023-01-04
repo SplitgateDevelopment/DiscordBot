@@ -3,7 +3,7 @@ import { ApplicationCommandOptionData, ApplicationCommandType, CommandInteractio
 import Bot from '../../Bot';
 import { IUser } from '../../types/User';
 
-class SlashCommand implements ISlashCommand {
+abstract class SlashCommand implements ISlashCommand {
     name: string;
     description: string;
     options: ApplicationCommandOptionData[];
