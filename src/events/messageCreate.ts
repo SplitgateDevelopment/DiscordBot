@@ -2,9 +2,14 @@ import { Message } from 'discord.js';
 import Bot from '../Bot';
 import Event from '../util/structures/Event';
 
-export default new Event({
-    name: 'messageCreate',
-    run: async (client: Bot, message: Message) => {
+class MessageEvent extends Event {
+    constructor() {
+        super({
+            name: 'messageCreate',
+        })
+    }
+
+    async run (client: Bot, message: Message) {
         if (message.author.bot) return;
 
         const prefix = client.config.prefix.toLowerCase();
@@ -18,12 +23,24 @@ export default new Event({
         const command = client.commands.get(cmd);
         if (!command) return;
 
-        if (command.ownerOnly && !client.config.dev.ids.includes(message.author.id)) return message.channel.send('> This command is only for the bot owner.');
+        if (command.ownerOnly && !client.config.dev.ids.includes(message.author.id)) return message.channel.send({
+            embeds: [client.embed({
+                text: 'This command is only for the bot owner.',
+                type: 'error'
+            })]
+        });
+        
         try {
             command.run(client, message, args);
-        }
-        catch(error) {
-            message.channel.send(`> An error occured while running the command: ${error}`);
+        } catch(error) {
+            message.channel.send({
+                embeds: [client.embed({
+                    text: `An error occured while running the command:\n> ${error}`,
+                    type: 'error'
+                })]
+            });
         }
     }
-});
+}
+
+export default new MessageEvent;
