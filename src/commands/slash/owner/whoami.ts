@@ -16,7 +16,7 @@ class WhoamiCommand extends SlashCommand {
         if (!client.splitgate.authorized) return interaction.reply({
             embeds: [client.embed({
                 type: 'error',
-                text: 'Looks like you have not logged in on Splitgate yet!',
+                text: 'Looks like you have not logged in on Splitgate yet',
             })],
             ephemeral: true,
         });

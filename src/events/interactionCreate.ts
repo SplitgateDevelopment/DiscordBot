@@ -26,10 +26,10 @@ class InteractionEvent extends Event {
     private handleInteraction(client: Bot, interaction: ButtonInteraction | AnySelectMenuInteraction, user: IUser) {
         let customInteraction = client.interactions.get(interaction.customId);
         if (!customInteraction) customInteraction = client.interactions.find(button => interaction.customId.startsWith(button.customId));
-        if (!customInteraction) return interaction.reply(this.errorReply(client, 'Oops! Button does not exist!'));
+        if (!customInteraction) return interaction.reply(this.errorReply(client, 'Oops! Button does not exist'));
 
         if (customInteraction.authorOnly && interaction.user.id !== interaction.message.interaction?.user.id)
-         return interaction.reply(this.errorReply(client, 'Oops! You shall not use other user\'s interactions!'));
+         return interaction.reply(this.errorReply(client, 'Oops! You shall not use other user\'s interactions'));
 
         return this.executeInteraction(client, customInteraction, interaction, user)
     }
@@ -49,11 +49,11 @@ class InteractionEvent extends Event {
 
         if (interaction.isChatInputCommand()) {
             const slashCommand = client.slashCommands.get(interaction.commandName);
-            if (!slashCommand) return interaction.reply(this.errorReply(client, 'Oops! Command does not exist!'));
+            if (!slashCommand) return interaction.reply(this.errorReply(client, 'Oops! Command does not exist'));
 
             if (slashCommand.category === 'splitgate') {
                 if (!client.splitgate.authorized)
-                 return interaction.reply(this.errorReply(client, 'Oops! The bot owner has not logged in on Splitgate yet!'));
+                 return interaction.reply(this.errorReply(client, 'Oops! The bot owner has not logged in on Splitgate yet'));
                 
                 if (slashCommand.options.length > 0 && slashCommand.options[0].name === 'userid') {
                     const input = interaction.options.getString('userid');
@@ -65,7 +65,7 @@ class InteractionEvent extends Event {
             }
 
             if (slashCommand.category === 'owner' && !client.config.dev.ids.includes(interaction.user.id))
-             return interaction.reply(this.errorReply(client, 'Oops! You are not the bot owner!'));
+             return interaction.reply(this.errorReply(client, 'Oops! You are not the bot owner'));
 
             return this.executeInteraction(client, slashCommand, interaction, user)
         }
