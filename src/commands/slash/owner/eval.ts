@@ -1,20 +1,26 @@
 import SlashCommand from '../../../util/structures/SlashCommand';
 import { inspect } from 'util';
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
 
-export default new SlashCommand({
-    name: 'eval',
-    description: 'Evaluate code',
-    options: [
-        {
-            name: 'code',
-            description: 'The code to evaluate',
-            type: 3,
-            required: true,
-        }
-    ],
-    private: true,
-    run: async (client, interaction) => {
+class EvalCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'eval',
+            description: 'Evaluate code',
+            options: [
+                {
+                    name: 'code',
+                    description: 'The code to evaluate',
+                    type: 3,
+                    required: true,
+                }
+            ],
+            private: true,
+        })
+    }
+    
+    async run (client: Bot, interaction: CommandInteraction) {
         const input = interaction.options.get('code');
         const code = input?.value?.toString() || '';
 
@@ -46,5 +52,7 @@ export default new SlashCommand({
                 ephemeral: true,
             });
         }
-    },
-});
+    }
+}
+
+export default new EvalCommand;

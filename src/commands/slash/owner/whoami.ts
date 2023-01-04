@@ -1,12 +1,18 @@
 
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'whoami',
-    description: 'Retrieve infos about the account used by the bot.',
-    private: true,
-    run: async (client, interaction) => {
+class WhoamiCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'whoami',
+            description: 'Retrieve infos about the account used by the bot.',
+            private: true,        
+        })
+    }
+
+    async run (client: Bot, interaction: CommandInteraction) {
         if (!client.splitgate.authorized) return interaction.reply({
             embeds: [client.embed({
                 type: 'error',
@@ -50,5 +56,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new WhoamiCommand;

@@ -1,18 +1,25 @@
+import { CommandInteraction } from 'discord.js';
+import Bot from '../../../Bot';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'login',
-    description: 'Login the bot to splitgate via a Steam auth token',
-    options: [
-        {
-            name: 'authtoken',
-            description: 'The auth token to login with',
-            type: 3,
-            required: true,
-        }
-    ],
-    private: true,
-    run: async (client, interaction) => {
+class LoginCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'login',
+            description: 'Login the bot to splitgate via a Steam auth token',
+            options: [
+                {
+                    name: 'authtoken',
+                    description: 'The auth token to login with',
+                    type: 3,
+                    required: true,
+                }
+            ],
+            private: true,
+        })
+    }
+
+    async run (client: Bot, interaction: CommandInteraction) {
         if (client.splitgate.authorized) return interaction.reply({
             embeds: [client.embed({
                 type: 'error',
@@ -44,5 +51,7 @@ export default new SlashCommand({
                 ephemeral: true,
             });
         }
-    },
-});
+    }
+}
+
+export default new LoginCommand;

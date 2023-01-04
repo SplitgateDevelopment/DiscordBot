@@ -1,10 +1,16 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
-export default new SlashCommand({
-    name: 'stream',
-    description: 'Check whether the splitgate official channel is live or not',
-    run: async (client, interaction) => {
+class StreamCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'stream',
+            description: 'Check whether the splitgate official channel is live or not',        
+        })
+    }
+
+    async run (client: Bot, interaction: CommandInteraction) {
         const data = await client.splitgate.getStreamStatus();
         
         const embed = new EmbedBuilder()
@@ -27,5 +33,7 @@ export default new SlashCommand({
         interaction.reply({
             embeds: [embed]
         });
-    },
-});
+    }
+}
+
+export default new StreamCommand;

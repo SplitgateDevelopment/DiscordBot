@@ -1,11 +1,32 @@
-import { EmbedBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import Bot from '../../../Bot';
 import SlashCommand from '../../../util/structures/SlashCommand';
-import Utils from '../../../util/Utils';
 
-export default new SlashCommand({
-    name: 'feed',
-    description: 'Retrieve splitgate feed status',
-    run: async (client, interaction) => {
+class FeedCommand extends SlashCommand {
+    constructor() {
+        super({
+            name: 'feed',
+            description: 'Retrieve splitgate feed status',
+        })
+    }
+
+    private formatEmbed(embed: EmbedBuilder, data: any, { utils }: Bot) {
+        const { isUrl, codeBlock } = utils;
+    
+        let val = data?.actionValue || 'N/A';
+        if (isUrl(val)) val = `(${val})`;
+        else val = '-'+codeBlock(val);
+    
+        embed.addFields([
+            {
+                name: data?.title?.en || '',
+                value: (data?.description?.en || '') + `\n**${codeBlock('Action')}:** [**${data?.actionTitle?.en || ''}**]${val}`,
+            }
+        ])
+        .setImage(data?.imageUrl || '');
+    }
+
+    async run (client: Bot, interaction: CommandInteraction) {
 
         const embed = new EmbedBuilder()
         .setTitle('Feed Status 📰')
@@ -21,33 +42,19 @@ export default new SlashCommand({
         }
 
         if (data.length == 1) {
-            await formatEmbed(embed, data[0], client.utils);
+            await this.formatEmbed(embed, data[0], client);
             return interaction.reply({
                 embeds: [embed],
                 ephemeral: true,
             })
         }
 
-        data.forEach(async (item: any) => await formatEmbed(embed, item, client.utils));
+        data.forEach(async (item: any) => await this.formatEmbed(embed, item, client));
         return interaction.reply({
             embeds: [embed],
             ephemeral: true,
         });
-    },
-});
-
-function formatEmbed(embed: EmbedBuilder, data: any, utils: Utils) {
-    const { isUrl, codeBlock } = utils;
-
-    let val = data?.actionValue || 'N/A';
-    if (isUrl(val)) val = `(${val})`;
-    else val = '-'+codeBlock(val);
-
-    embed.addFields([
-        {
-            name: data?.title?.en || '',
-            value: (data?.description?.en || '') + `\n**${codeBlock('Action')}:** [**${data?.actionTitle?.en || ''}**]${val}`,
-        }
-    ])
-    .setImage(data?.imageUrl || '');
+    }
 }
+
+export default new FeedCommand;
