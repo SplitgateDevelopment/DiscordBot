@@ -1,6 +1,6 @@
 interface IUser {
-    id: string;
-    authToken?: string;
+    _id: string;
+    splitgateId?: string;
 }
 
 export {
