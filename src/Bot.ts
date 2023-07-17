@@ -1,7 +1,6 @@
 import { Client, ClientOptions, Collection, EmbedBuilder } from 'discord.js';
 import { BotConfig, HandleFunction, BaseEmbedsOptions, slashCmdsMapTypes } from './types/Bot';
 import { Logger } from '@schiacciata/logger';
-import MongoClient from './util/MongoClient';
 import { v2 } from 'splitgate.js';
 import Command from './util/structures/Command';
 import Event from './util/structures/Event';
@@ -12,6 +11,7 @@ import { ApplicationCommandType, Routes } from 'discord-api-types/v10';
 import { colors, emojis } from './util/EmbedData';
 import Utils from './util/Utils';
 import Button from './util/structures/Interaction';
+import { PrismaClient } from '@prisma/client';
 
 class Bot extends Client {
     config: BotConfig;
@@ -19,7 +19,7 @@ class Bot extends Client {
     isDev: boolean;
     restApi: REST;
     logger: Logger;
-    mongo: MongoClient;
+    db: PrismaClient;
     splitgate: v2;
     utils: Utils;
     commands: Collection<string, Command>;
@@ -34,7 +34,7 @@ class Bot extends Client {
         this.restApi = new REST({ version: '10' }).setToken(this.config.bot?.token || '');
 
         this.logger = new Logger(config.logger);
-        this.mongo = new MongoClient(config.db, this);
+        this.db = new PrismaClient();
         this.splitgate = new v2();
         this.utils = new Utils(this);
 
@@ -104,7 +104,7 @@ class Bot extends Client {
     }
 
     public async start(): Promise<void> {
-        await this.mongo.init();
+        await this.db.$connect()
         await this._loadHandlers();
         await this.login(this.config.bot.token);
     }
