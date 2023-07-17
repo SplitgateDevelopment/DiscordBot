@@ -16,11 +16,9 @@ const config: BotConfig = Object.freeze({
         ids: [process.env.OWNER_ID || ''],
         guild: process.env.DEV_GUILD_ID || ''
     },
-    db: {
-        uri: process.env.DB_URI,
-    },
     splitgate: {
         redeemDaily: true,
+        token: process.env.SPLITGATE_TOKEN
     }
 });
 
