@@ -1,7 +1,6 @@
 
-import { BaseInteraction, PermissionResolvable } from 'discord.js';
-import Bot from '../Bot';
-import { IUser } from './User';
+import { PermissionResolvable } from 'discord.js';
+import { InteractionRunDTO } from './Bot';
 
 type InteractionOptions = {
     customId: string;
@@ -9,7 +8,7 @@ type InteractionOptions = {
     authorOnly?: boolean;
     userPermissions?: PermissionResolvable[];
     botPermissions?: PermissionResolvable[];
-    run?: (client: Bot, interaction: BaseInteraction, user: IUser) => void | Promise<void>;
+    run?: (executeDTO: InteractionRunDTO) => void | Promise<void>;
 };
 
 interface IInteraction {
@@ -18,7 +17,7 @@ interface IInteraction {
     authorOnly: boolean;
     userPermissions: PermissionResolvable[];
     botPermissions: PermissionResolvable[];
-    run: (client: Bot, interaction: BaseInteraction, user: IUser) => void | Promise<void>;
+    run: (executeDTO: InteractionRunDTO) => void | Promise<void>;
 }
 
 export {
