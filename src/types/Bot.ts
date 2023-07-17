@@ -1,6 +1,5 @@
 import { constructorOptions } from '@schiacciata/logger/dist/src/structs';
 import Bot from '../Bot';
-import { ClientOptions } from './MongoClient';
 
 type BotConfig = {
     bot: {
@@ -10,7 +9,6 @@ type BotConfig = {
     logger: constructorOptions;
     prefix: string;
     dev: devConfig;
-    db: ClientOptions;
     splitgate?: SplitgateOptions
 };
 
