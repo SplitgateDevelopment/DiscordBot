@@ -1,6 +1,5 @@
 import { ButtonInteraction } from 'discord.js';
 import Bot from '../../Bot';
-import User from '../../schemas/User';
 import Interaction from '../../util/structures/Interaction';
 
 class UnlinkButton extends Interaction {
@@ -12,9 +11,15 @@ class UnlinkButton extends Interaction {
 
     async run (client: Bot, interaction: ButtonInteraction) {
         try {
-            const userData = await User.findByIdAndUpdate(interaction.user.id, {
-                splitgateId: '',
+            const userData = await client.db.user.update({
+                where: {
+                    id: interaction.user.id,
+                },
+                data: {
+                    splitgateId: '',
+                }
             });
+
             if (!userData) return interaction.reply({
                     embeds: [client.embed({
                         text: 'You don\'t not have a linked profile yet',

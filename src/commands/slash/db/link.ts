@@ -1,6 +1,5 @@
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
 import Bot from '../../../Bot';
-import User from '../../../schemas/User';
 import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
@@ -43,13 +42,19 @@ class LinkCommand extends SlashCommand {
         });
 
         try {
-            const userData = await User.findByIdAndUpdate(interaction.user.id, {
+            const data: IUser = {
+                id: interaction.user.id,
                 splitgateId: userId,
+            };
+            
+            await client.db.user.upsert({
+                where: {
+                    id: interaction.user.id,
+                },
+                update: data,
+                create: data,
             });
-            if (!userData) await User.create({
-                _id: interaction.user.id,
-                splitgateId: userId,
-            });
+
         } catch (error) {
             return interaction.reply({
                 embeds: [client.embed({

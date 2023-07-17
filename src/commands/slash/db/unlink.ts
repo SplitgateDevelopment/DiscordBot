@@ -1,6 +1,5 @@
 import { CommandInteraction } from 'discord.js';
 import Bot from '../../../Bot';
-import User from '../../../schemas/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class UnlinkCommand extends SlashCommand {
@@ -13,9 +12,15 @@ class UnlinkCommand extends SlashCommand {
     
     async run (client: Bot, interaction: CommandInteraction) {
         try {
-            const userData = await User.findByIdAndUpdate(interaction.user.id, {
-                splitgateId: '',
+            const userData = await client.db.user.update({
+                where: {
+                    id: interaction.user.id,
+                },
+                data: {
+                    splitgateId: '',
+                }
             });
+            
             if (!userData) return interaction.reply({
                     embeds: [client.embed({
                         text: 'You don\'t not have a linked profile yet',
