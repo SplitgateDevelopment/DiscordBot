@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionData, ApplicationCommandType, CommandInteraction } from 'discord.js';
-import Bot from '../Bot';
-import { IUser } from './User';
+import { InteractionRunDTO } from './Bot';
+
+type SlashCommandRunDTO = InteractionRunDTO<CommandInteraction>;
 
 type SlashCommandOptions = {
     name: string;
@@ -9,7 +10,7 @@ type SlashCommandOptions = {
     type?: ApplicationCommandType;
     category?: string;
     private?: boolean;
-    run?: (client: Bot, interaction: CommandInteraction, user: IUser) => void;
+    run?: (executeDTO: SlashCommandRunDTO) => void;
 };
 
 interface ISlashCommand {
@@ -19,10 +20,11 @@ interface ISlashCommand {
     type?: ApplicationCommandType;
     category?: string;
     private?: boolean;
-    run: (client: Bot, interaction: CommandInteraction, user: IUser) => void;
+    run: (executeDTO: SlashCommandRunDTO) => void;
 }
 
 export {
     ISlashCommand,
     SlashCommandOptions,
+    SlashCommandRunDTO,
 }
