@@ -1,5 +1,5 @@
 interface IUser {
-    _id: string;
+    id: string;
     splitgateId?: string;
 }
 
