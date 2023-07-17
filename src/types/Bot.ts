@@ -1,5 +1,7 @@
 import { constructorOptions } from '@schiacciata/logger/dist/src/structs';
+import { BaseInteraction } from 'discord.js';
 import Bot from '../Bot';
+import { IUser } from './User';
 
 type BotConfig = {
     bot: {
@@ -31,12 +33,18 @@ interface BaseEmbedsOptions {
 }
 
 type EmbedTypes = 'success' | 'error';
-
 type slashCmdsMapTypes = 'private' | 'public';
+
+type InteractionRunDTO<T = BaseInteraction> = {
+    client: Bot;
+    interaction: T;
+    user: IUser;
+};
 
 export {
     BotConfig,
     HandleFunction,
     BaseEmbedsOptions,
     slashCmdsMapTypes,
+    InteractionRunDTO,
 };
