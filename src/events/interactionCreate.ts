@@ -1,6 +1,5 @@
 import { AnySelectMenuInteraction, BaseInteraction, ButtonInteraction } from 'discord.js';
 import Bot from '../Bot';
-import User from '../schemas/User';
 import { IUser } from '../types/User';
 import Event from '../util/structures/Event';
 import Interaction from '../util/structures/Interaction';
@@ -45,7 +44,15 @@ class InteractionEvent extends Event {
     async run(client: Bot, interaction: BaseInteraction) {
         if (interaction.user.id === interaction.client.user?.id || interaction.user.bot) return;
 
-        const user: IUser = (await User.findById(interaction.user.id)) || { _id: interaction.user.id };
+        const dbUser = await client.db.user.findFirst({
+            where: {
+                id: interaction.user.id,
+            }
+        });
+        const user: IUser =  { 
+            id: interaction.user.id,
+            splitgateId: dbUser?.splitgateId ?? undefined,
+        };
 
         if (interaction.isChatInputCommand()) {
             const slashCommand = client.slashCommands.get(interaction.commandName);
