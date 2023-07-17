@@ -1,6 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { IUser } from '../../../types/User';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class RecentPlayersCommand extends SlashCommand {
@@ -17,8 +16,8 @@ class RecentPlayersCommand extends SlashCommand {
             ],        
         })
     }
-
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+    
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
         
         const limit = 11;
         const data = await client.splitgate.getRecentPlayers(user.splitgateId, limit);

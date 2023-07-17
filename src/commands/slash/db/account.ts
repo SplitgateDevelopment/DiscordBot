@@ -1,6 +1,5 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { IUser } from '../../../types/User';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 import ProfileInfoButton from '../../../interactions/buttons/profileinfo';
 import UnlinkButton from '../../../interactions/buttons/unlink';
@@ -13,7 +12,7 @@ class AccountCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
         if (!user.splitgateId) return interaction.reply({
             embeds: [client.embed({
                 text: 'You don\'t not have a linked profile yet, use the </link:1> command.',

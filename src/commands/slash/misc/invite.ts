@@ -1,5 +1,5 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class InviteCommand extends SlashCommand {
@@ -10,7 +10,8 @@ class InviteCommand extends SlashCommand {
         })
     }
 
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
+
         const link = client.utils.inviteUrl();
         const embed = new EmbedBuilder()
         .setTitle('Invite me!')

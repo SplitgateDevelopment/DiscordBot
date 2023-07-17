@@ -1,6 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { IUser } from '../../../types/User';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class BadgesCommand extends SlashCommand {
@@ -18,8 +17,9 @@ class BadgesCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
-        const { badgeProgress } = (await client.splitgate.getBadges([user.splitgateId]))[user.splitgateId || ''];
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
+        const badges = await client.splitgate.getBadges([user.splitgateId]);
+        const { badgeProgress } = (badges)[user.splitgateId || ''];
         
         const { codeBlock } = client.utils;
         const fields = Object.keys(badgeProgress)

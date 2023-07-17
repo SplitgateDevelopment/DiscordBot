@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import { IUser } from '../../../types/User';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
@@ -19,7 +19,7 @@ class LinkCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
 
         const input = interaction.options.get('profileid');
         const userId = input?.value?.toString() || '';

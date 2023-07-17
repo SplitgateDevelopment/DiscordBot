@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class LeaderboardCommand extends SlashCommand {
@@ -32,7 +32,7 @@ class LeaderboardCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
         const category = interaction.options.get('category')?.value?.toString() || '';
         const platform = interaction.options.get('platform')?.value?.toString();
 

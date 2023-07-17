@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class StreamCommand extends SlashCommand {
@@ -9,8 +9,8 @@ class StreamCommand extends SlashCommand {
             description: 'Check whether the splitgate official channel is live or not',        
         })
     }
-
-    async run (client: Bot, interaction: CommandInteraction) {
+    
+    async run ({ client, interaction }: SlashCommandRunDTO) {
         const data = await client.splitgate.getStreamStatus();
         
         const embed = new EmbedBuilder()

@@ -1,5 +1,5 @@
 import { ButtonInteraction } from 'discord.js';
-import Bot from '../../Bot';
+import { InteractionRunDTO } from '../../types/Bot';
 import Interaction from '../../util/structures/Interaction';
 
 class UnlinkButton extends Interaction {
@@ -8,8 +8,8 @@ class UnlinkButton extends Interaction {
             customId: 'UnlinkButton',
         })
     }
-
-    async run (client: Bot, interaction: ButtonInteraction) {
+    
+    async run ({ client, interaction }: InteractionRunDTO<ButtonInteraction>) {
         try {
             const userData = await client.db.user.update({
                 where: {

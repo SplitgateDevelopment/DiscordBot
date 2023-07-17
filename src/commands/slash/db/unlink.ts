@@ -1,5 +1,4 @@
-import { CommandInteraction } from 'discord.js';
-import Bot from '../../../Bot';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class UnlinkCommand extends SlashCommand {
@@ -10,7 +9,8 @@ class UnlinkCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
+
         try {
             const userData = await client.db.user.update({
                 where: {

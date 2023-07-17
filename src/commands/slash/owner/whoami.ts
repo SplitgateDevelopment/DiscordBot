@@ -1,6 +1,5 @@
-
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class WhoamiCommand extends SlashCommand {
@@ -12,7 +11,7 @@ class WhoamiCommand extends SlashCommand {
         })
     }
 
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
         if (!client.splitgate.authorized) return interaction.reply({
             embeds: [client.embed({
                 type: 'error',

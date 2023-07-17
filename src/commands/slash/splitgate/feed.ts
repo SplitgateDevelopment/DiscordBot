@@ -1,5 +1,6 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import Bot from '../../../Bot';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class FeedCommand extends SlashCommand {
@@ -25,8 +26,8 @@ class FeedCommand extends SlashCommand {
         ])
         .setImage(data?.imageUrl || '');
     }
-
-    async run (client: Bot, interaction: CommandInteraction) {
+    
+    async run ({ client, interaction }: SlashCommandRunDTO) {
 
         const embed = new EmbedBuilder()
         .setTitle('Feed Status 📰')

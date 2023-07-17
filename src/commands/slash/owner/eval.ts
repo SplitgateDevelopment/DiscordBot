@@ -1,7 +1,7 @@
 import SlashCommand from '../../../util/structures/SlashCommand';
 import { inspect } from 'util';
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 
 class EvalCommand extends SlashCommand {
     constructor() {
@@ -20,7 +20,7 @@ class EvalCommand extends SlashCommand {
         })
     }
     
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ interaction }: SlashCommandRunDTO) {
         const input = interaction.options.get('code');
         const code = input?.value?.toString() || '';
 

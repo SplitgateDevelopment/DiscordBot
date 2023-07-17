@@ -1,5 +1,4 @@
-import { CommandInteraction } from 'discord.js';
-import Bot from '../../../Bot';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class TestCommand extends SlashCommand {
@@ -10,7 +9,7 @@ class TestCommand extends SlashCommand {
         })
     }
 
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ interaction }: SlashCommandRunDTO) {
         interaction.reply({content: 'This is a test 🧪.', ephemeral: true });
     }
 }

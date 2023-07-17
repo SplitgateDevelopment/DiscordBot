@@ -1,7 +1,5 @@
-import { ISlashCommand, SlashCommandOptions } from '../../types/SlashCommand';
-import { ApplicationCommandOptionData, ApplicationCommandType, CommandInteraction } from 'discord.js';
-import Bot from '../../Bot';
-import { IUser } from '../../types/User';
+import { ISlashCommand, SlashCommandOptions, SlashCommandRunDTO } from '../../types/SlashCommand';
+import { ApplicationCommandOptionData, ApplicationCommandType } from 'discord.js';
 
 abstract class SlashCommand implements ISlashCommand {
     name: string;
@@ -20,7 +18,7 @@ abstract class SlashCommand implements ISlashCommand {
         if (options.run) this.run = options.run;
     }
 
-    run (_client: Bot, _interaction: CommandInteraction, _user: IUser): void {
+    run (_executeDTO: SlashCommandRunDTO): void {
         throw new Error('Not implemented');
     }
 }

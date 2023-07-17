@@ -1,6 +1,6 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { platformId } from 'splitgate.js/dist/src/typings/v2';
-import Bot from '../../../Bot';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class SearchCommand extends SlashCommand {
@@ -38,8 +38,8 @@ class SearchCommand extends SlashCommand {
             ]
         });
     }
-
-    async run (client: Bot, interaction: CommandInteraction) {
+    
+    async run ({ client, interaction }: SlashCommandRunDTO) {
 
         const userId = interaction.options.get('profileid')?.value?.toString()  || '';
         const platform = (interaction.options.get('platform')?.value?.toString() || 'steam') as platformId;

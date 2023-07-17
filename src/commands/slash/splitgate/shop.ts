@@ -1,8 +1,8 @@
-import { ActionRowBuilder, StringSelectMenuBuilder, CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
 import { view, viewButtonEmojis } from '../../../types/Shop';
 import SlashCommand from '../../../util/structures/SlashCommand';
 import ShopSelectMenu from '../../../interactions/selectmenus/shop';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 
 class ShopCommand extends SlashCommand {
     private readonly buttonEmojis: viewButtonEmojis;
@@ -28,8 +28,8 @@ class ShopCommand extends SlashCommand {
             'Featured Items': '✨',
         }
     }
-
-    async run(client: Bot, interaction: CommandInteraction) {
+    
+    async run ({ client, interaction }: SlashCommandRunDTO) {
         const views: view[] = await client.splitgate.getViews(interaction.options.get('language')?.value?.toString());
 
         const embed = new EmbedBuilder()

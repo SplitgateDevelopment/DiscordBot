@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class ActiveChallengesCommand extends SlashCommand {
@@ -10,7 +10,7 @@ class ActiveChallengesCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
         const data = await client.splitgate.getChallengesState();
         const { codeBlock, getFormattedTimestamp } = client.utils;
 

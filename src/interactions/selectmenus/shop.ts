@@ -1,5 +1,5 @@
 import { StringSelectMenuInteraction, ColorResolvable, EmbedBuilder } from 'discord.js';
-import Bot from '../../Bot';
+import { InteractionRunDTO } from '../../types/Bot';
 import { viewSection, viewSections } from '../../types/Shop';
 import Interaction from '../../util/structures/Interaction';
 
@@ -17,8 +17,8 @@ class ShopSelectMenu extends Interaction {
             'Featured Items': 'Blurple',
         }
     }
-
-    async run (client: Bot, interaction: StringSelectMenuInteraction) {
+    
+    async run ({ client, interaction }: InteractionRunDTO<StringSelectMenuInteraction>) {
         const viewId = interaction.values[0];
         const data = await client.splitgate.getViewSections(viewId);
 

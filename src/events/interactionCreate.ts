@@ -35,7 +35,11 @@ class InteractionEvent extends Event {
 
     private async executeInteraction(client:Bot, interaction: Interaction | SlashCommand, baseInteraction: any, user: IUser) {
         try {
-            await interaction.run(client, baseInteraction, user);
+            await interaction.run({
+                client,
+                interaction: baseInteraction,
+                user,
+            });
         } catch (error) {
             if (!baseInteraction.replied) baseInteraction.reply(this.errorReply(client, `Oops! Something went wrong!\n\`\`\`js\n${error}\`\`\``));  
         }

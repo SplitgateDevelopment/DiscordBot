@@ -1,5 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class UptimeCommand extends SlashCommand {
@@ -10,7 +10,8 @@ class UptimeCommand extends SlashCommand {
         })
     }
 
-    async run (client: Bot, interaction: CommandInteraction) {
+    async run ({ client, interaction }: SlashCommandRunDTO) {
+        
         const embed = new EmbedBuilder()
         .setTitle('Uptime 🔌')
         .setDescription(`The bot is online since ${client.utils.getFormattedTimestamp(client.utils.uptime()*1000, 'R')}`)

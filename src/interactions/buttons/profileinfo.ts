@@ -1,6 +1,5 @@
 import { ButtonInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../Bot';
-import { IUser } from '../../types/User';
+import { InteractionRunDTO } from '../../types/Bot';
 import Interaction from '../../util/structures/Interaction';
 
 class ProfileInfoButton extends Interaction {
@@ -9,8 +8,8 @@ class ProfileInfoButton extends Interaction {
             customId: 'ProfileInfo',
         })
     }
-
-    async run (client: Bot, interaction: ButtonInteraction, user: IUser) {
+    
+    async run ({ client, interaction, user }: InteractionRunDTO<ButtonInteraction>) {
         if (!user.splitgateId) return interaction.reply({
             embeds: [client.embed({
                 text: 'You have don\'t have a linked profile',

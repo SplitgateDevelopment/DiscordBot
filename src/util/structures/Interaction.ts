@@ -1,7 +1,6 @@
 import { IInteraction, InteractionOptions } from '../../types/Interaction';
-import { BaseInteraction, PermissionResolvable } from 'discord.js';
-import Bot from '../../Bot';
-import { IUser } from '../../types/User';
+import {  PermissionResolvable } from 'discord.js';
+import { InteractionRunDTO } from '../../types/Bot';
 
 class Interaction implements IInteraction {
     customId: string;
@@ -18,7 +17,7 @@ class Interaction implements IInteraction {
         if (options.run) this.run = options.run;
     }
 
-    run (_client: Bot, _interaction: BaseInteraction, user: IUser): void {
+    run (_executeDTO: InteractionRunDTO): void {
         throw new Error('Not implemented');
     }
 }

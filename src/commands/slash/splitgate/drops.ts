@@ -1,6 +1,5 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { IUser } from '../../../types/User';
+import { EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class DropsCommand extends SlashCommand {
@@ -18,7 +17,7 @@ class DropsCommand extends SlashCommand {
         });
     }
     
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
         const data = await client.splitgate.getDrops(user.splitgateId);
 
         const { codeBlock } = client.utils;

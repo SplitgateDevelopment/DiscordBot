@@ -1,6 +1,6 @@
-import { CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { item, } from '../../../types/Shop';
+import { EmbedBuilder } from 'discord.js';
+import { item } from '../../../types/Shop';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class ItemCommand extends SlashCommand {
@@ -18,8 +18,8 @@ class ItemCommand extends SlashCommand {
             ]
         });
     }
-        
-    async run(client: Bot, interaction: CommandInteraction) {
+    
+    async run ({ client, interaction }: SlashCommandRunDTO) {
 
         const input = interaction.options.get('itemids');
         const itemIds = input?.value?.toString() || '';

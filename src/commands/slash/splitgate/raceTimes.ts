@@ -1,6 +1,5 @@
-import { APIEmbedField, CommandInteraction, EmbedBuilder } from 'discord.js';
-import Bot from '../../../Bot';
-import { IUser } from '../../../types/User';
+import { APIEmbedField, EmbedBuilder } from 'discord.js';
+import { SlashCommandRunDTO } from '../../../types/SlashCommand';
 import SlashCommand from '../../../util/structures/SlashCommand';
 
 class RaceTimesCommand extends SlashCommand {
@@ -37,8 +36,8 @@ class RaceTimesCommand extends SlashCommand {
             ],        
         })
     }
-
-    async run (client: Bot, interaction: CommandInteraction, user: IUser) {
+    
+    async run ({ client, interaction, user }: SlashCommandRunDTO) {
         const platform = interaction.options.get('platform')?.value?.toString() || 'STEAM';
 
         const data = await client.splitgate.getRaceTimes(user.splitgateId, platform);
