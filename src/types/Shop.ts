@@ -1,5 +1,3 @@
-import { ButtonStyle } from 'discord.js';
-
 type viewSections = 'Esports' | 'Daily Items' | 'Value Bundle' | 'Featured Items';
 
 type view = {
